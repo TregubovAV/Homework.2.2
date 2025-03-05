@@ -20,15 +20,21 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Set up Chrome
+      - name: Install Chrome (определенной версии)
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+          google-chrome-stable --version
 
-      - name: Install Chrome WebDriver
+      - name: Install ChromeDriver (совместимой версии)
         run: |
-          sudo apt-get install -y chromium-chromedriver
-          echo "CHROMEDRIVER=$(which chromedriver)" >> $GITHUB_ENV
+          CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget -N "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/bin/chromedriver
+          sudo chmod +x /usr/bin/chromedriver
+          chromedriver --version
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
