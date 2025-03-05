@@ -20,6 +20,11 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
+      - name: Set up Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: Grant execute permission for gradlew (если Gradle-скрипты не исполняемые)
         run: chmod +x gradlew
 
