@@ -20,8 +20,14 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Grant execute permission for gradlew (если Gradle-скрипты не исполняемые)
+      - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Start server
+        run: |
+          nohup ./gradlew run &
+          echo "Waiting for the server to start..."
+          sleep 15
 
       - name: Run tests
         run: ./gradlew test
