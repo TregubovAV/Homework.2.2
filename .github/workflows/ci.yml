@@ -25,11 +25,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Grant execute permission for gradlew (если Gradle-скрипты не исполняемые)
+      - name: Install Chrome WebDriver
+        run: |
+          sudo apt-get install -y chromium-chromedriver
+          echo "CHROMEDRIVER=$(which chromedriver)" >> $GITHUB_ENV
+
+      - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew test -Dselenide.headless=true
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
