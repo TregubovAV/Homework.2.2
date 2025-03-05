@@ -1,2 +1,3 @@
 build_script:
   - java -jar ./artifacts/app-card-delivery.jar &
+  - ./gradlew test --info -Dselenide.headless=true
