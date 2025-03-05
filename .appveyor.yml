@@ -1,0 +1,2 @@
+build_script:
+  - java -jar ./artifacts/app-order.jar &
