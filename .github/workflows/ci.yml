@@ -20,22 +20,11 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          google-chrome-stable --version
-
-      - name: Install ChromeDriver
-        run: |
-          sudo apt-get install -y chromium-chromedriver
-          chromedriver --version
-
-      - name: Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew (если Gradle-скрипты не исполняемые)
         run: chmod +x gradlew
 
       - name: Run tests
-        run: ./gradlew test -Dselenide.headless=true
+        run: ./gradlew test
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
