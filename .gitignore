@@ -31,9 +31,9 @@ out/
 .vscode/
 
 ### Package Files ###
-# Исключаем JAR, кроме app-order.jar
+# Исключаем JAR, кроме app-card-delivery.jar
 *.jar
-!artifacts/app-order.jar
+!artifacts/app-card-delivery.jar
 *.war
 *.nar
 *.ear

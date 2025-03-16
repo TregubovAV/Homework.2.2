@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Check out the repo
         uses: actions/checkout@v3
         
@@ -24,32 +23,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Start server
-        run: |
-          nohup ./gradlew run &  # Или ./gradlew bootRun, если Spring Boot
-          echo "Waiting for the server to start..."
-          sleep 15
-
-      - name: Run tests
-        run: ./gradlew test \
-          -Dselenide.browser=chrome \
-          -Dselenide.headless=true \
-          -Dchromeoptions.args="--no-sandbox --disable-dev-shm-usage"
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: build/reports/tests/test/
+      - name: Start SUT
+        run: java -jar ./artifacts/app-mbank.jar &
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew test --info -Dselenide.headless=true
